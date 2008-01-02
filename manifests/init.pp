@@ -20,14 +20,14 @@ class aide {
                 	source => "puppet://$servername/aide/aide.conf",
         		ensure => file,
         		force => true,
-        		mode => 0644, owner => root, group => root;
+        		mode => 0644, owner => root, group => 0;
         }
 	file {
         	"/etc/cron.daily/aide.cron":
                 	source => "puppet://$servername/aide/aide.cron",
         		ensure => file,
         		force => true,
-        		mode => 0755, owner => root, group => root;
+        		mode => 0755, owner => root, group => 0;
         }
 	
 }
