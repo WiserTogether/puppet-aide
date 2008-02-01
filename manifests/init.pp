@@ -32,3 +32,12 @@ class aide {
 	
 }
 
+define aide::config($source){
+    file {
+                "/var/lib/aide/aide.db":
+                        source => "puppet://$servername/$source",
+                        ensure => file,
+                        force => true,
+                        mode => 0400, owner => root, group => 0;
+        }
+}
