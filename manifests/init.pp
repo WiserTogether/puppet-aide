@@ -34,7 +34,7 @@ class aide {
                 source => [
                     "puppet://$servername/dist/apps/aide/${fqdn}/aide.db",
                     "puppet://$servername/dist/apps/aide/immer1-0.glei.ch/aide.db"
-                ]
+                ],
         	    ensure => file,
         	    force => true,
                 mode => 0400, owner => root, group => 0;
