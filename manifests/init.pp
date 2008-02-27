@@ -31,22 +31,13 @@ class aide {
         }
 	file {
         	"/var/lib/aide/aide.db":
-                source => "puppet://$servername/aide/aide.cron",
-        	    ensure => file,
-        	    force => true,
-        	    mode => 0755, owner => root, group => 0;
-        }
-}
-
-class aide::db inherits inherits aide {
-    file {
-        "/var/lib/aide/aide.db":
                 source => [
                     "puppet://$servername/dist/apps/aide/${fqdn}/aide.db",
                     "puppet://$servername/dist/apps/aide/immer1-0.glei.ch/aide.db"
                 ]
-                ensure => file,
-                force => true,
+        	    ensure => file,
+        	    force => true,
                 mode => 0400, owner => root, group => 0;
-    }
+        }
 }
+
