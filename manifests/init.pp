@@ -32,8 +32,8 @@ class aide {
 	file {
         	"/var/lib/aide/aide.db":
                 source => [
-                    "puppet://$servername/dist/apps/aide/${fqdn}/aide.db",
-                    "puppet://$servername/dist/apps/aide/immer1-0.glei.ch/aide.db"
+                    "puppet://$servername/dist/aide/${fqdn}/aide.db",
+                    "puppet://$servername/dist/aide/immer1-0.glei.ch/aide.db"
                 ],
         	    ensure => file,
         	    force => true,
