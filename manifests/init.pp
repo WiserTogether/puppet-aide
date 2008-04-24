@@ -16,18 +16,18 @@ class aide::base {
     }
 
 	file { "/etc/aide/aide.conf":
-        source => [ "puppet://$servername/files/aide/${fqdn}/aide.conf",
-                    "puppet://$servername/files/aide/aide.conf",
-                    "puppet://$servername/aide/aide.conf"
+        source => [ "puppet://$server/files/aide/${fqdn}/aide.conf",
+                    "puppet://$server/files/aide/aide.conf",
+                    "puppet://$server/aide/aide.conf"
                 ],
         ensure => file,
         force => true,
         mode => 0644, owner => root, group => 0;
     }
 	file { "/etc/cron.daily/aide.cron":
-        source => [ "puppet://$servername/files/aide/${fqdn}/aide.cron",
-                    "puppet://$servername/files/aide/aide.cron",
-                    "puppet://$servername/aide/aide.cron"
+        source => [ "puppet://$server/files/aide/${fqdn}/aide.cron",
+                    "puppet://$server/files/aide/aide.cron",
+                    "puppet://$server/aide/aide.cron"
                 ],
         ensure => file,
         force => true,
@@ -35,9 +35,9 @@ class aide::base {
     }
 	file { "/var/lib/aide/aide.db":
         source => [
-            "puppet://$servername/files/aide/${fqdn}/aide.db",
-            "puppet://$servername/files/aide/aide.db",
-            "puppet://$servername/aide/aide.db"
+            "puppet://$server/files/aide/${fqdn}/aide.db",
+            "puppet://$server/files/aide/aide.db",
+            "puppet://$server/aide/aide.db"
         ],
         ensure => file,
         force => true,
