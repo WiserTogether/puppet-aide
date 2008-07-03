@@ -27,11 +27,11 @@ NOISE="(/var/cache/|/var/lib/|/var/tmp)"
 PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 LOGDIR="/var/log/aide"
 LOGFILE="aide.log"
-CONFFILE="/etc/aide/aide.conf"
+CONFFILE="/etc/aide.conf"
 ERRORLOG="aide_error.log"
 ERRORTMP=`tempfile --directory "/tmp" --prefix "$ERRORLOG"`
 
-[ -f /usr/bin/aide ] || exit 0
+[ -f /usr/sbin/aide ] || exit 0
 
 DATABASE=`grep "^database=file:/" $CONFFILE | head -n 1 | cut --delimiter=: --fields=2`
 FQDN=`hostname -f`

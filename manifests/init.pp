@@ -15,9 +15,11 @@ class aide::base {
         ensure => present,
     }
 
-	file { "/etc/aide/aide.conf":
+	file { "/etc/aide.conf":
         source => [ "puppet://$server/files/aide/${fqdn}/aide.conf",
+                    "puppet://$server/files/aide/${operatingsystem}/aide.conf",
                     "puppet://$server/files/aide/aide.conf",
+                    "puppet://$server/aide/${operatingsystem}/aide.conf"
                     "puppet://$server/aide/aide.conf"
                 ],
         ensure => file,
@@ -48,5 +50,9 @@ class aide::base {
 class aide::gentoo inherits aide::base {
     Package[aide] {
         category => 'app-forensics',
+    }
+
+    File["/etc/aide.conf"]{
+        path => "/etc/aide/aide.conf",
     }
 }
