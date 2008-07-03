@@ -28,9 +28,9 @@ class aide::base {
     }
 	file { "/etc/cron.daily/aide.cron":
         source => [ "puppet://$server/files/aide/${fqdn}/aide.cron",
-                    "puppet://$server/files/aide/${operatingsystem}/aide.cron"
+                    "puppet://$server/files/aide/${operatingsystem}/aide.cron",
                     "puppet://$server/files/aide/aide.cron",
-                    "puppet://$server/aide/${operatingsystem}/aide.cron"
+                    "puppet://$server/aide/${operatingsystem}/aide.cron",
                     "puppet://$server/aide/aide.cron"
                 ],
         ensure => file,
