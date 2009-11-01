@@ -19,8 +19,8 @@ class aide::base {
         source => [ "puppet://$server/files/aide/${fqdn}/aide.conf",
                     "puppet://$server/files/aide/${operatingsystem}/aide.conf",
                     "puppet://$server/files/aide/aide.conf",
-                    "puppet://$server/aide/${operatingsystem}/aide.conf",
-                    "puppet://$server/aide/aide.conf"
+                    "puppet://$server/modules/aide/${operatingsystem}/aide.conf",
+                    "puppet://$server/modules/aide/aide.conf"
                 ],
         ensure => file,
         force => true,
@@ -30,8 +30,8 @@ class aide::base {
         source => [ "puppet://$server/files/aide/${fqdn}/aide.cron",
                     "puppet://$server/files/aide/${operatingsystem}/aide.cron",
                     "puppet://$server/files/aide/aide.cron",
-                    "puppet://$server/aide/${operatingsystem}/aide.cron",
-                    "puppet://$server/aide/aide.cron"
+                    "puppet://$server/modules/aide/${operatingsystem}/aide.cron",
+                    "puppet://$server/modules/aide/aide.cron"
                 ],
         ensure => file,
         force => true,
