@@ -25,8 +25,8 @@ class aide::base {
         force => true,
         mode => 0755, owner => root, group => 0;
     }
-	file { "/var/lib/aide/aide.db":
-        source => "puppet:///modules/site-aide/${fqdn}/aide.db",
+	file { "/var/lib/aide/aide.db.gz":
+        source => "puppet:///modules/site-aide/${fqdn}/aide.db.gz",
         ensure => file,
         force => true,
         mode => 0400, owner => root, group => 0;
