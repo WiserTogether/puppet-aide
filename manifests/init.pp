@@ -7,5 +7,4 @@ class aide {
         gentoo: { include aide::gentoo }
         default: { include aide::base }
     }
-
 }
