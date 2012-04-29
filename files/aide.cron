@@ -45,6 +45,7 @@ AIDEARGS="--config=$CONFFILE -V4"
 
 if [ ! -f $DATABASE ]; then
 	aide $AIDEARGS --init >"$LOGDIR/$LOGFILE" 2>"$ERRORTMP"
+	mv $DATABASE_OUT $DATABASE
 	(
 	echo "AIDE initialized: The AIDE database did not exist!"
 	echo "This may mean you just installed aide, or it may mean that someone has removed it."
