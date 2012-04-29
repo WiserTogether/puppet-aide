@@ -1,9 +1,9 @@
 class aide::base {
-	package { 'aide':
+    package { 'aide':
         ensure => present,
     }
 
-	file { "/etc/aide.conf":
+    file { "/etc/aide.conf":
         source => [ "puppet:///modules/site-aide/${fqdn}/aide.conf",
                     "puppet:///modules/site-aide/${operatingsystem}/aide.conf",
                     "puppet:///modules/site-aide/aide.conf",
@@ -14,7 +14,7 @@ class aide::base {
         force => true,
         mode => 0644, owner => root, group => 0;
     }
-	file { "/etc/cron.daily/aide.cron":
+        file { "/etc/cron.daily/aide.cron":
         source => [ "puppet:///modules/site-aide/${fqdn}/aide.cron",
                     "puppet:///modules/site-aide/${operatingsystem}/aide.cron",
                     "puppet:///modules/site-aide/aide.cron",
@@ -24,11 +24,5 @@ class aide::base {
         ensure => file,
         force => true,
         mode => 0755, owner => root, group => 0;
-    }
-	file { "/var/lib/aide/aide.db.gz":
-        source => "puppet:///modules/site-aide/${fqdn}/aide.db.gz",
-        ensure => file,
-        force => true,
-        mode => 0400, owner => root, group => 0;
     }
 }

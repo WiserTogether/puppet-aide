@@ -6,7 +6,7 @@
 MAILTO=root
 
 # Set this to suppress mailings when there's nothing to report
-QUIETREPORTS=1
+#QUIETREPORTS=1
 
 # This parameter defines which aide command to run from the cron script.
 # Sensible values are "update" and "check".
@@ -18,7 +18,7 @@ COMMAND=update
 
 # This parameter defines how many lines to return per e-mail. Output longer
 # than this value will be truncated in the e-mail sent out.
-LINES=1000
+LINES=10000
 
 # This parameter gives a grep regular expression. If given, all output lines
 # that _don't_ match the regexp are listed first in the script's output. This
@@ -27,26 +27,27 @@ NOISE="(/var/cache/|/var/lib/|/var/tmp)"
 PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 LOGDIR="/var/log/aide"
 LOGFILE="aide.log"
-CONFFILE="/etc/aide/aide.conf"
-ERRORLOG="aide_error.log"
-ERRORTMP=`tempfile --directory "/tmp" --prefix "$ERRORLOG"`
-
-[ -f /usr/bin/aide ] || exit 0
+CONFFILE="/etc/aide.conf"
+ERRORLOG="aide_error.log.XXXXX"
+ERRORTMP=`mktemp -t "$ERRORLOG"`
 
 DATABASE=`grep "^database=file:/" $CONFFILE | head -n 1 | cut --delimiter=: --fields=2`
+DATABASE_OUT=`grep "^database_out=file:/" $CONFFILE | head -n 1 | cut --delimiter=: --fields=2`
 FQDN=`hostname -f`
 DATE=`date +"at %Y-%m-%d %H:%M"`
 
 # default values
 
-DATABASE="${DATABASE:-/var/lib/aide/aide.db}"
+DATABASE="${DATABASE:-/var/lib/aide/aide.db.gz}"
+DATABASE_OUT="${DATABASE_OUT:-/var/lib/aide/aide.db.new.gz}"
 
-AIDEARGS="-V4"
+AIDEARGS="--config=$CONFFILE -V4"
 
 if [ ! -f $DATABASE ]; then
+	aide $AIDEARGS --init >"$LOGDIR/$LOGFILE" 2>"$ERRORTMP"
 	(
-	echo "Fatal error: The AIDE database does not exist!"
-	echo "This may mean you haven't created it, or it may mean that someone has removed it."
+	echo "AIDE initialized: The AIDE database did not exist!"
+	echo "This may mean you just installed aide, or it may mean that someone has removed it."
 	) | /bin/mail -s "Daily AIDE report for $FQDN" $MAILTO
 	exit 0
 fi
@@ -55,6 +56,9 @@ fi
 #[ -f "$LOGDIR/$LOGFILE" ] && savelog -j -t -g adm -m 640 -u root -c 7 "$LOGDIR/$LOGFILE" > /dev/null
 #[ -f "$LOGDIR/$ERRORLOG" ] && savelog -j -t -g adm -m 640 -u root -c 7 "$LOGDIR/$ERRORLOG" > /dev/null
 
+if [ -f $DATABASE_OUT ]; then
+	mv $DATABASE_OUT $DATABASE
+fi
 aide $AIDEARGS --$COMMAND >"$LOGDIR/$LOGFILE" 2>"$ERRORTMP"
 RETVAL=$?
 
@@ -111,8 +115,8 @@ fi
 # include de-noised log
 
 if [ -n "$NOISE" ]; then
-	NOISETMP=`tempfile --directory "/tmp" --prefix "aidenoise"`
-	NOISETMP2=`tempfile --directory "/tmp" --prefix "aidenoise"`
+	NOISETMP=`mktemp -t "aidenoise.XXXXX"`
+	NOISETMP2=`mktemp -t "aidenoise.XXXXX"`
 	sed -n '1,/^Detailed information about changes:/p' "$LOGDIR/$LOGFILE" | \
 	grep '^\(changed\|removed\|added\):' | \
 	grep -v "^added: THERE WERE ALSO [0-9]\+ FILES ADDED UNDER THIS DIRECTORY" > $NOISETMP2
